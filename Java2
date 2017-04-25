@@ -1,0 +1,71 @@
+    package javafxapplication1;
+
+import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.scene.Scene;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.VBox;
+
+import javafx.stage.Stage;
+
+public class JavaFXApplication1 extends Application{
+      
+      public Stage MainStage;
+      public Scene InventoryScene;
+      public TableView<Entry> EntryTable;
+      public PropertyValueFactory<Entry, String> nameFactory;
+      public PropertyValueFactory<Entry, Integer> quantityFactory;
+      public ObservableList<Entry> CurrentInventory;
+      
+      
+      public static void main(String[] args) {
+            launch(args);
+        }
+        
+     @Override
+     
+public void start(Stage MainStage) throws Exception {
+    MainStage.setTitle("Inventory Manager");
+    
+    TableColumn<Entry, String> nameColumn;
+    TableColumn<Entry, Integer> quantityColumn;
+    TableColumn<Entry, String> notesColumn;
+    
+    nameColumn = new TableColumn<>("Name");
+    nameColumn.setMinWidth(200);
+    nameColumn.setCellValueFactory(new PropertyValueFactory<> ("name"));
+    
+    quantityColumn = new TableColumn<>("Quantity");
+    quantityColumn.setMinWidth(200);
+    
+    quantityColumn.setCellValueFactory(new PropertyValueFactory<> ("quantity"));
+    
+    notesColumn = new TableColumn<>("Description");
+    notesColumn.setMinWidth(200);
+    notesColumn.setCellValueFactory(new PropertyValueFactory<> ("notes"));
+    
+    EntryTable = new TableView<>();
+    EntryTable.setItems( getEntry() );
+    EntryTable.getColumns().addAll(nameColumn, quantityColumn, notesColumn);
+    
+    VBox stockBox;
+    stockBox = new VBox();
+    stockBox.getChildren().addAll(EntryTable);
+    
+    InventoryScene = new Scene(stockBox);
+    MainStage.setScene(InventoryScene);
+    MainStage.show();
+    
+}
+
+public ObservableList<Entry> getEntry(){
+    CurrentInventory = FXCollections.observableArrayList();
+    CurrentInventory.add(new Entry ("Bananas", 12, "Not Ripe!"));
+    CurrentInventory.add(new Entry ("Yikes", 1000000, "Lmao"));
+    return CurrentInventory;
+}
+
+}
